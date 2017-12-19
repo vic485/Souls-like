@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Gazzotto.Enemies;
 
 namespace Gazzotto.Controller
 {
@@ -13,12 +14,14 @@ namespace Gazzotto.Controller
         public float moveAmount;
         public Vector3 moveDir;
         public bool rt, rb, lt, lb;
+        public bool rollInput;
 
         [Header("Stats")]
         public float moveSpeed = 3.5f;
         public float runSpeed = 5.5f;
         public float rotateSpeed = 9f;
         public float toGround = 0.5f;
+        public float rollSpeed = 1.6f;
 
         [Header("States")]
         public bool onGround;
@@ -28,6 +31,9 @@ namespace Gazzotto.Controller
         public bool canMove;
         public bool isTwoHanded;
 
+        [Header("Other")]
+        public EnemyTarget lockOnTarget;
+
         [HideInInspector] public Animator anim;
         [HideInInspector] public Rigidbody rigid;
         [HideInInspector] public AnimatorHook a_hook;
@@ -36,7 +42,7 @@ namespace Gazzotto.Controller
         [HideInInspector] public LayerMask ignoreLayers;
 
         float _actionDelay = 0;
-        
+
         public void Init()
         {
             SetupAnimator();
@@ -98,6 +104,9 @@ namespace Gazzotto.Controller
             if (!canMove)
                 return;
 
+            a_hook.rm_multi = 1;
+            HandleRolls();
+
             anim.applyRootMotion = false;
 
             rigid.drag = (moveAmount > 0 || !onGround) ? 0 : 4;
@@ -112,18 +121,20 @@ namespace Gazzotto.Controller
             if (run)
                 lockOn = false;
 
-            if (!lockOn)
-            {
-                Vector3 targetDir = moveDir;
-                targetDir.y = 0;
-                if (targetDir == Vector3.zero)
-                    targetDir = transform.forward;
-                Quaternion tr = Quaternion.LookRotation(targetDir);
-                Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, delta * moveAmount * rotateSpeed);
-                transform.rotation = targetRotation;
-            }
+            Vector3 targetDir = (!lockOn) ? moveDir : lockOnTarget.transform.position - transform.position;
+            targetDir.y = 0;
+            if (targetDir == Vector3.zero)
+                targetDir = transform.forward;
+            Quaternion tr = Quaternion.LookRotation(targetDir);
+            Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, delta * moveAmount * rotateSpeed);
+            transform.rotation = targetRotation;
 
-            HandleMovementAnimations();
+            anim.SetBool("lockon", lockOn);
+
+            if (!lockOn)
+                HandleMovementAnimations();
+            else
+                HandleLockOnAnimations(moveDir);
         }
 
         public void DetectAction()
@@ -161,10 +172,60 @@ namespace Gazzotto.Controller
             anim.SetBool("onGround", onGround);
         }
 
+        void HandleRolls()
+        {
+            if (!rollInput)
+                return;
+
+            float v = vertical;
+            float h = horizontal;
+            v = (moveAmount > 0.3f) ? 1 : 0;
+            h = 0;
+
+            /*if (!lockOn)
+            {
+                v = (moveAmount > 0.3f) ? 1 : 0;
+                h = 0;
+            }
+            else
+            {
+                if (Mathf.Abs(v) < 0.3f)
+                    v = 0;
+                if (Mathf.Abs(h) < 0.3f)
+                    h = 0;
+            }*/
+            if (v != 0)
+            {
+                if (moveDir == Vector3.zero)
+                    moveDir = transform.forward;
+                Quaternion targetRot = Quaternion.LookRotation(moveDir);
+                transform.rotation = targetRot;
+            }
+
+            a_hook.rm_multi = rollSpeed;
+
+            anim.SetFloat("vertical", v);
+            anim.SetFloat("horizontal", h);
+
+            canMove = false;
+            inAction = true;
+            anim.CrossFade("Rolls", 0.2f);
+        }
+
         void HandleMovementAnimations()
         {
             anim.SetBool("run", run);
             anim.SetFloat("vertical", moveAmount, 0.4f, delta);
+        }
+
+        void HandleLockOnAnimations(Vector3 moveDir)
+        {
+            Vector3 relativeDir = transform.InverseTransformDirection(moveDir);
+            float h = relativeDir.x;
+            float v = relativeDir.z;
+
+            anim.SetFloat("vertical", v, 0.2f, delta);
+            anim.SetFloat("horizontal", h, 0.2f, delta);
         }
 
         public bool OnGround()
