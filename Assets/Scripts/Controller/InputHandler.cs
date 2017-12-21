@@ -21,6 +21,10 @@ namespace Gazzotto.Controller
         bool leftAxis_down;
         bool rightAxis_down;
 
+        float b_timer;
+        float rt_timer;
+        float lt_timer;
+
         StateManager states;
         CameraManager camManager;
 
@@ -48,7 +52,7 @@ namespace Gazzotto.Controller
         {
             delta = Time.deltaTime;
             states.Tick(delta);
-
+            ResetInputAndStates();
         }
 
         void GetInput()
@@ -74,8 +78,8 @@ namespace Gazzotto.Controller
 
             rightAxis_down = Input.GetButtonUp("L");
 
-            /*if (b_input)
-                b_timer += delta;*/
+            if (b_input)
+                b_timer += delta;
         }
 
         void UpdateStates()
@@ -89,15 +93,14 @@ namespace Gazzotto.Controller
             float m = Mathf.Abs(horizontal) + Mathf.Abs(vertical);
             states.moveAmount = Mathf.Clamp01(m);
 
-            states.rollInput = b_input;
-
-            if (b_input)
+            if (b_input && b_timer > 0.5f)
             {
-                //states.run = (states.moveAmount > 0);
+                states.run = (states.moveAmount > 0);
             }
-            else
+
+            if (!b_input && b_timer > 0 && b_timer < 0.5f)
             {
-                //states.run = false;
+                states.rollInput = true;
             }
 
             states.rt = rt_input;
@@ -120,6 +123,17 @@ namespace Gazzotto.Controller
                 states.lockOnTransform = camManager.lockonTransform;
                 camManager.lockon = states.lockOn;
             }
+        }
+
+        void ResetInputAndStates()
+        {
+            if (b_input == false)
+                b_timer = 0;
+
+            if (states.rollInput)
+                states.rollInput = false;
+            if (states.run)
+                states.run = false;
         }
     }
 }

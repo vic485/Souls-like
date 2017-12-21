@@ -800,6 +800,8 @@ GameObject:
   - component: {fileID: 965828888}
   - component: {fileID: 965828887}
   - component: {fileID: 965828891}
+  - component: {fileID: 965828892}
+  - component: {fileID: 965828893}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -900,11 +902,17 @@ MonoBehaviour:
     - serializedVersion: 2
       time: 0
       value: 0
+      inSlope: -0.021663668
+      outSlope: -0.021663668
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.05
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.5
+      time: 0.78
       value: 1
       inSlope: 0
       outSlope: 0
@@ -912,19 +920,65 @@ MonoBehaviour:
     - serializedVersion: 2
       time: 1
       value: 0
-      inSlope: 0
+      inSlope: -6.599738
       outSlope: 0
-      tangentMode: 0
+      tangentMode: 1
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
   anim: {fileID: 0}
   rigid: {fileID: 0}
   a_hook: {fileID: 0}
+  actionManager: {fileID: 0}
+  inventoryManager: {fileID: 0}
   delta: 0
   ignoreLayers:
     serializedVersion: 2
     m_Bits: 0
+--- !u!114 &965828892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 965828886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1cc970d8fc122445a07844afdd23e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionSlots:
+  - input: 0
+    targetAnim: 
+  - input: 1
+    targetAnim: 
+  - input: 2
+    targetAnim: 
+  - input: 3
+    targetAnim: 
+--- !u!114 &965828893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 965828886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a61813d2bb93b1d4c8ebe6747e23fdce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curWeapon:
+    actions:
+    - input: 0
+      targetAnim: oh_attack_1
+    - input: 2
+      targetAnim: oh_attack_3
+    - input: 3
+      targetAnim: parry
+    two_handedActions:
+    - input: 0
+      targetAnim: th_attack_1
+    - input: 2
+      targetAnim: th_attack_2
 --- !u!1 &1001954305
 GameObject:
   m_ObjectHideFlags: 0
