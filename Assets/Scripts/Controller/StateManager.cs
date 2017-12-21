@@ -21,7 +21,7 @@ namespace Gazzotto.Controller
         public float runSpeed = 5.5f;
         public float rotateSpeed = 9f;
         public float toGround = 0.5f;
-        public float rollSpeed = 1.6f;
+        public float rollSpeed = 15f;
 
         [Header("States")]
         public bool onGround;
@@ -33,6 +33,8 @@ namespace Gazzotto.Controller
 
         [Header("Other")]
         public EnemyTarget lockOnTarget;
+        public Transform lockOnTransform;
+        public AnimationCurve roll_curve;
 
         [HideInInspector] public Animator anim;
         [HideInInspector] public Rigidbody rigid;
@@ -104,7 +106,8 @@ namespace Gazzotto.Controller
             if (!canMove)
                 return;
 
-            a_hook.rm_multi = 1;
+            //a_hook.rm_multi = 1;
+            a_hook.CloseRoll();
             HandleRolls();
 
             anim.applyRootMotion = false;
@@ -121,7 +124,7 @@ namespace Gazzotto.Controller
             if (run)
                 lockOn = false;
 
-            Vector3 targetDir = (!lockOn) ? moveDir : lockOnTarget.transform.position - transform.position;
+            Vector3 targetDir = (!lockOn) ? moveDir : (lockOnTransform != null) ? lockOnTransform.position - transform.position : moveDir;
             targetDir.y = 0;
             if (targetDir == Vector3.zero)
                 targetDir = transform.forward;
@@ -210,6 +213,7 @@ namespace Gazzotto.Controller
             canMove = false;
             inAction = true;
             anim.CrossFade("Rolls", 0.2f);
+            a_hook.InitForRoll();
         }
 
         void HandleMovementAnimations()

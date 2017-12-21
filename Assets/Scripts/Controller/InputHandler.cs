@@ -32,7 +32,7 @@ namespace Gazzotto.Controller
             states.Init();
 
             camManager = CameraManager.singleton;
-            camManager.Init(transform);
+            camManager.Init(states);
         }
 
         private void FixedUpdate()
@@ -116,7 +116,8 @@ namespace Gazzotto.Controller
                 states.lockOn = !states.lockOn;
                 if (states.lockOnTarget == null)
                     states.lockOn = false;
-                camManager.lockonTarget = states.lockOnTarget.transform;
+                camManager.lockonTarget = states.lockOnTarget;
+                states.lockOnTransform = camManager.lockonTransform;
                 camManager.lockon = states.lockOn;
             }
         }

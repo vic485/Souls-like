@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Gazzotto.Enemies;
 
 namespace Gazzotto.Controller
 {
@@ -12,10 +13,12 @@ namespace Gazzotto.Controller
         public float controllerSpeed = 5;
 
         public Transform target;
-        public Transform lockonTarget;
+        public EnemyTarget lockonTarget;
+        public Transform lockonTransform;
 
         [HideInInspector] public Transform pivot;
         [HideInInspector] public Transform camTransform;
+        StateManager states;
 
         float turnSmoothing = 0.1f;
         public float minAngle = -35f;
@@ -28,6 +31,8 @@ namespace Gazzotto.Controller
         public float lookAngle;
         public float tiltAngle;
 
+        bool usedRightAxis;
+
         private void Awake()
         {
             if (singleton != null)
@@ -36,9 +41,10 @@ namespace Gazzotto.Controller
             singleton = this;
         }
 
-        public void Init(Transform t)
+        public void Init(StateManager st)
         {
-            target = t;
+            states = st;
+            target = st.transform;
 
             camTransform = Camera.main.transform;
             pivot = camTransform.parent;
@@ -53,6 +59,31 @@ namespace Gazzotto.Controller
             float c_v = Input.GetAxis("RightStick Y");
 
             float targetSpeed = mouseSpeed;
+
+            if (lockonTarget != null)
+            {
+                if (lockonTransform == null)
+                {
+                    lockonTransform = lockonTarget.GetTarget();
+                    states.lockOnTransform = lockonTransform;
+                }
+
+                if (Mathf.Abs(c_h) > 0.6f)
+                {
+                    if (!usedRightAxis)
+                    {
+                        lockonTransform = lockonTarget.GetTarget((c_h > 0));
+                        states.lockOnTransform = lockonTransform;
+                        usedRightAxis = true;
+                    }
+                }
+            }
+
+            if (usedRightAxis)
+            {
+                if (Mathf.Abs(c_h) < 0.6f)
+                    usedRightAxis = false;
+            }
 
             if (c_h != 0 || c_v != 0)
             {
@@ -91,7 +122,7 @@ namespace Gazzotto.Controller
 
             if (lockon && lockonTarget != null)
             {
-                Vector3 targetDir = lockonTarget.position - transform.position;
+                Vector3 targetDir = lockonTransform.position - transform.position;
                 targetDir.Normalize();
                 //targetDir.y = 0;
 
