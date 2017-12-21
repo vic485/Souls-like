@@ -15,6 +15,7 @@ namespace Gazzotto.Controller
         public Vector3 moveDir;
         public bool rt, rb, lt, lb;
         public bool rollInput;
+        public bool itemInput;
 
         [Header("Stats")]
         public float moveSpeed = 3.5f;
@@ -30,6 +31,7 @@ namespace Gazzotto.Controller
         public bool inAction;
         public bool canMove;
         public bool isTwoHanded;
+        public bool usingItem;
 
         [Header("Other")]
         public EnemyTarget lockOnTarget;
@@ -91,7 +93,11 @@ namespace Gazzotto.Controller
         {
             delta = d;
 
+            usingItem = anim.GetBool("interacting");
+
+            DetectItemAction();
             DetectAction();
+            inventoryManager.curWeapon.weaponModel.SetActive(!usingItem);
 
             if (inAction)
             {
@@ -123,6 +129,12 @@ namespace Gazzotto.Controller
             rigid.drag = (moveAmount > 0 || !onGround) ? 0 : 4;
 
             float targetSpeed = moveSpeed;
+            if (usingItem)
+            {
+                run = false;
+                moveAmount = Mathf.Clamp(moveAmount, 0, 0.45f);
+            }
+
             if (run)
                 targetSpeed = runSpeed;
 
@@ -148,9 +160,27 @@ namespace Gazzotto.Controller
                 HandleLockOnAnimations(moveDir);
         }
 
+        public void DetectItemAction()
+        {
+            if (!canMove || usingItem)
+                return;
+
+            if (!itemInput)
+                return;
+
+            ItemAction slot = actionManager.consumableItem;
+            string targetAnim = slot.targetAnim;
+            if (string.IsNullOrEmpty(targetAnim))
+                return;
+
+            //inventoryManager.curWeapon.weaponModel.SetActive(false);
+            usingItem = true;
+            anim.Play(targetAnim);
+        }
+
         public void DetectAction()
         {
-            if (!canMove)
+            if (!canMove || usingItem)
                 return;
 
             if (!rb && !rt && !lb && !lt)
@@ -181,7 +211,7 @@ namespace Gazzotto.Controller
 
         void HandleRolls()
         {
-            if (!rollInput)
+            if (!rollInput || usingItem)
                 return;
 
             float v = vertical;
@@ -207,9 +237,13 @@ namespace Gazzotto.Controller
                     moveDir = transform.forward;
                 Quaternion targetRot = Quaternion.LookRotation(moveDir);
                 transform.rotation = targetRot;
+                a_hook.rm_multi = rollSpeed;
+                a_hook.InitForRoll();
             }
-
-            a_hook.rm_multi = rollSpeed;
+            else
+            {
+                a_hook.rm_multi = 1.3f;
+            }
 
             anim.SetFloat("vertical", v);
             anim.SetFloat("horizontal", h);
@@ -217,7 +251,6 @@ namespace Gazzotto.Controller
             canMove = false;
             inAction = true;
             anim.CrossFade("Rolls", 0.2f);
-            a_hook.InitForRoll();
         }
 
         void HandleMovementAnimations()

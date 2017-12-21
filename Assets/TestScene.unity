@@ -883,6 +883,7 @@ MonoBehaviour:
   lt: 0
   lb: 0
   rollInput: 0
+  itemInput: 0
   moveSpeed: 3.5
   runSpeed: 5.5
   rotateSpeed: 9
@@ -894,6 +895,7 @@ MonoBehaviour:
   inAction: 0
   canMove: 0
   isTwoHanded: 0
+  usingItem: 0
   lockOnTarget: {fileID: 712435706}
   lockOnTransform: {fileID: 0}
   roll_curve:
@@ -955,6 +957,9 @@ MonoBehaviour:
     targetAnim: 
   - input: 3
     targetAnim: 
+  consumableItem:
+    targetAnim: use_item
+    itemId: 
 --- !u!114 &965828893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -979,6 +984,7 @@ MonoBehaviour:
       targetAnim: th_attack_1
     - input: 2
       targetAnim: th_attack_2
+    weaponModel: {fileID: 2123943011}
 --- !u!1 &1001954305
 GameObject:
   m_ObjectHideFlags: 0
@@ -2576,3 +2582,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2123715544}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &2123943011 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100000, guid: e3914e144adbd554a94c05401b826c22, type: 3}
+  m_PrefabInternal: {fileID: 1517126609}
