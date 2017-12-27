@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Gazzotto.Items;
 
 namespace Gazzotto.Controller
 {
@@ -9,7 +10,7 @@ namespace Gazzotto.Controller
 
         public void Init()
         {
-
+            curWeapon.w_hook.CloseDamageColliders();
         }
     }
 
@@ -19,5 +20,6 @@ namespace Gazzotto.Controller
         public List<Action> actions;
         public List<Action> two_handedActions;
         public GameObject weaponModel;
+        public WeaponHook w_hook;
     }
 }

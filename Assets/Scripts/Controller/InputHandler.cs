@@ -118,6 +118,25 @@ namespace Gazzotto.Controller
                 states.HandleTwoHanded();
             }
 
+            if (states.lockOnTarget != null)
+            {
+                if (states.lockOnTarget.eStates.isDead)
+                {
+                    states.lockOn = false;
+                    states.lockOnTarget = null;
+                    states.lockOnTransform = null;
+                    camManager.lockon = false;
+                    camManager.lockonTarget = null;
+                }
+            }
+
+            if (!states.lockOnTarget.eStates.enabled)
+            {
+                states.lockOn = false;
+                states.lockOnTarget = null;
+                states.lockOnTransform = null;
+            }
+
             if (rightAxis_down)
             {
                 states.lockOn = !states.lockOn;

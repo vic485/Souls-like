@@ -9,11 +9,14 @@ namespace Gazzotto.Enemies
         public List<Transform> targets = new List<Transform>();
         public List<HumanBodyBones> h_bones = new List<HumanBodyBones>();
 
+        public EnemyStates eStates;
+
         Animator anim;
 
-        private void Start()
+        public void Init(EnemyStates eSt)
         {
-            anim = GetComponent<Animator>();
+            eStates = eSt;
+            anim = eStates.anim;
             if (!anim.isHuman)
                 return;
 
