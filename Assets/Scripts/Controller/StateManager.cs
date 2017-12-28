@@ -32,6 +32,8 @@ namespace Gazzotto.Controller
         public bool canMove;
         public bool isTwoHanded;
         public bool usingItem;
+        public bool isBlocking;
+        public bool isLeftHand;
 
         [Header("Other")]
         public EnemyTarget lockOnTarget;
@@ -95,11 +97,16 @@ namespace Gazzotto.Controller
         {
             delta = d;
 
+            isBlocking = false;
             usingItem = anim.GetBool("interacting");
 
-            DetectItemAction();
             DetectAction();
+            DetectItemAction();
+            
             inventoryManager.rightHandWeapon.weaponModel.SetActive(!usingItem);
+
+            anim.SetBool("block", isBlocking);
+            anim.SetBool("isLeft", isLeftHand);
 
             if (inAction)
             {
@@ -164,7 +171,7 @@ namespace Gazzotto.Controller
 
         public void DetectItemAction()
         {
-            if (!canMove || usingItem)
+            if (!canMove || usingItem || isBlocking)
                 return;
 
             if (!itemInput)
@@ -188,11 +195,33 @@ namespace Gazzotto.Controller
             if (!rb && !rt && !lb && !lt)
                 return;
 
-            string targetAnim = null;
-
             Action slot = actionManager.GetActionSlot(this);
             if (slot == null)
                 return;
+
+            switch (slot.type)
+            {
+                case ActionType.attack:
+                    AttackAction(slot);
+                    break;
+                case ActionType.block:
+                    BlockAction(slot);
+                    break;
+                case ActionType.parry:
+                    ParryAction(slot);
+                    break;
+                case ActionType.spells:
+                    break;
+                default:
+                    print("You did something wrong on the action type");
+                    break;
+            }
+        }
+
+        void AttackAction(Action slot)
+        {
+            string targetAnim = null;
+
             targetAnim = slot.targetAnim;
 
             if (string.IsNullOrEmpty(targetAnim))
@@ -202,7 +231,27 @@ namespace Gazzotto.Controller
             inAction = true;
             anim.SetBool("mirror", slot.mirror);
             anim.CrossFade(targetAnim, 0.2f);
-            //rigid.velocity = Vector3.zero;
+        }
+
+        void BlockAction(Action slot)
+        {
+            isBlocking = true;
+            isLeftHand = slot.mirror;
+        }
+
+        void ParryAction(Action slot)
+        {
+            string targetAnim = null;
+
+            targetAnim = slot.targetAnim;
+
+            if (string.IsNullOrEmpty(targetAnim))
+                return;
+
+            canMove = false;
+            inAction = true;
+            anim.SetBool("mirror", slot.mirror);
+            anim.CrossFade(targetAnim, 0.2f);
         }
 
         public void Tick(float d)

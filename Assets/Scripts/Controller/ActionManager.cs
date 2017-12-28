@@ -46,18 +46,22 @@ namespace Gazzotto.Controller
 
             Action w_rb = r_w.GetAction(r_w.actions, ActionInput.rb);
             rb.targetAnim = w_rb.targetAnim;
+            rb.type = w_rb.type;
 
             Action w_rt = r_w.GetAction(r_w.actions, ActionInput.rt);
             rt.targetAnim = w_rt.targetAnim;
+            rt.type = w_rt.type;
 
             Action lb = GetAction(ActionInput.lb);
             Action lt = GetAction(ActionInput.lt);
 
             Action w_lb = l_w.GetAction(l_w.actions, ActionInput.rb);
             lb.targetAnim = w_lb.targetAnim;
+            lb.type = w_lb.type;
 
             Action w_lt = l_w.GetAction(l_w.actions, ActionInput.rt);
             lt.targetAnim = w_lt.targetAnim;
+            lt.type = w_lt.type;
 
             if (l_w.leftHandMirror)
             {
@@ -75,6 +79,7 @@ namespace Gazzotto.Controller
             {
                 Action a = GetAction(w.two_handedActions[i].input);
                 a.targetAnim = w.two_handedActions[i].targetAnim;
+                a.type = w.two_handedActions[i].type;
             }
         }
 
@@ -85,6 +90,7 @@ namespace Gazzotto.Controller
                 Action a = GetAction((ActionInput)i);
                 a.targetAnim = null;
                 a.mirror = false;
+                a.type = ActionType.attack;
             }
         }
 
@@ -135,10 +141,16 @@ namespace Gazzotto.Controller
         rb,lb,rt,lt
     }
 
+    public enum ActionType
+    {
+        attack, block, spells, parry
+    }
+
     [System.Serializable]
     public class Action
     {
         public ActionInput input;
+        public ActionType type;
         public string targetAnim;
         public bool mirror = false;
     }
