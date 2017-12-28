@@ -109,13 +109,13 @@ namespace Gazzotto.Controller
         public void OpenDamageColliders()
         {
             if (states != null)
-                states.inventoryManager.curWeapon.w_hook.OpenDamageColliders();
+                states.inventoryManager.OpenAllDamageColliders();
         }
 
         public void CloseDamageColliders()
         {
             if (states != null)
-                states.inventoryManager.curWeapon.w_hook.CloseDamageColliders();
+                states.inventoryManager.CloseAllDamageColliders();
         }
     }
 }

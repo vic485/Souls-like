@@ -21,7 +21,13 @@ namespace Gazzotto.Controller
         public void UpdateActionsOneHanded()
         {
             EmptyAllSlots();
-            Weapon w = states.inventoryManager.curWeapon;
+
+            if (states.inventoryManager.hasLeftHandWeapon)
+            {
+                UpdateActionsWithLeftHand();
+                return;
+            }
+            Weapon w = states.inventoryManager.rightHandWeapon;
 
             for (int i = 0; i < w.actions.Count; i++)
             {
@@ -30,10 +36,40 @@ namespace Gazzotto.Controller
             }
         }
 
+        public void UpdateActionsWithLeftHand()
+        {
+            Weapon r_w = states.inventoryManager.rightHandWeapon;
+            Weapon l_w = states.inventoryManager.leftHandWeapon;
+
+            Action rb = GetAction(ActionInput.rb);
+            Action rt = GetAction(ActionInput.rt);
+
+            Action w_rb = r_w.GetAction(r_w.actions, ActionInput.rb);
+            rb.targetAnim = w_rb.targetAnim;
+
+            Action w_rt = r_w.GetAction(r_w.actions, ActionInput.rt);
+            rt.targetAnim = w_rt.targetAnim;
+
+            Action lb = GetAction(ActionInput.lb);
+            Action lt = GetAction(ActionInput.lt);
+
+            Action w_lb = l_w.GetAction(l_w.actions, ActionInput.rb);
+            lb.targetAnim = w_lb.targetAnim;
+
+            Action w_lt = l_w.GetAction(l_w.actions, ActionInput.rt);
+            lt.targetAnim = w_lt.targetAnim;
+
+            if (l_w.leftHandMirror)
+            {
+                lb.mirror = true;
+                lt.mirror = true;
+            }
+        }
+
         public void UpdateActionsTwoHanded()
         {
             EmptyAllSlots();
-            Weapon w = states.inventoryManager.curWeapon;
+            Weapon w = states.inventoryManager.rightHandWeapon;
 
             for (int i = 0; i < w.two_handedActions.Count; i++)
             {
@@ -48,6 +84,7 @@ namespace Gazzotto.Controller
             {
                 Action a = GetAction((ActionInput)i);
                 a.targetAnim = null;
+                a.mirror = false;
             }
         }
 
@@ -103,6 +140,7 @@ namespace Gazzotto.Controller
     {
         public ActionInput input;
         public string targetAnim;
+        public bool mirror = false;
     }
 
     [System.Serializable]

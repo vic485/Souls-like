@@ -130,12 +130,12 @@ namespace Gazzotto.Controller
                 }
             }
 
-            if (!states.lockOnTarget.eStates.enabled)
+            /*if (!states.lockOnTarget.eStates.enabled)
             {
                 states.lockOn = false;
                 states.lockOnTarget = null;
                 states.lockOnTransform = null;
-            }
+            }*/
 
             if (rightAxis_down)
             {
