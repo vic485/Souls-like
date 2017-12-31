@@ -14,8 +14,7 @@ namespace Gazzotto.Enemies
         public bool dontDoAnything;
         public bool canMove;
         public bool isDead;
-
-        StateManager parriedBy;
+        public StateManager parriedBy;
 
         public Animator anim;
         EnemyTarget enTarget;
@@ -112,7 +111,7 @@ namespace Gazzotto.Enemies
 
             if (parriedBy != null && !parryIsOn)
             {
-                parriedBy.parryTarget = null;
+                //parriedBy.parryTarget = null;
                 parriedBy = null;
             }
 
@@ -165,7 +164,7 @@ namespace Gazzotto.Enemies
             anim.Play("attack_interrupt");
             anim.applyRootMotion = true;
             anim.SetBool("canMove", false);
-            states.parryTarget = this;
+            //states.parryTarget = this;
             parriedBy = states;
         }
 
