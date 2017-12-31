@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using Gazzotto.Items;
+using Gazzotto.UI;
 
 namespace Gazzotto.Controller
 {
@@ -32,6 +33,9 @@ namespace Gazzotto.Controller
             states.anim.SetBool("mirror", isLeft);
             states.anim.Play("changeWeapon");
             states.anim.Play(targetIdle);
+
+            QuickSlot uiSlot = QuickSlot.singleton;
+            uiSlot.UpdateSlot((isLeft) ? QSlotType.lh : QSlotType.rh, weapon.icon);
         }
 
         public void OpenAllDamageColliders()
@@ -66,6 +70,8 @@ namespace Gazzotto.Controller
     [System.Serializable]
     public class Weapon
     {
+        public string weaponId;
+        public Sprite icon;
         public string oh_idle;
         public string th_idle;
 
