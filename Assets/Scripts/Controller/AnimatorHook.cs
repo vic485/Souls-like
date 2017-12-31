@@ -110,12 +110,58 @@ namespace Gazzotto.Controller
         {
             if (states != null)
                 states.inventoryManager.OpenAllDamageColliders();
+
+            OpenParryFlag();
         }
 
         public void CloseDamageColliders()
         {
             if (states != null)
                 states.inventoryManager.CloseAllDamageColliders();
+
+            CloseParryFlag();
+        }
+
+        public void OpenParryCollider()
+        {
+            if (states == null)
+                return;
+
+            states.inventoryManager.OpenParryCollider();
+        }
+
+        public void CloseParryCollider()
+        {
+            if (states == null)
+                return;
+
+            states.inventoryManager.CloseParryCollider();
+        }
+
+        public void OpenParryFlag()
+        {
+            if (states)
+            {
+                states.parryIsOn = true;
+            }
+
+            if (eStates)
+            {
+                eStates.parryIsOn = true;
+            }
+        }
+
+        public void CloseParryFlag()
+        {
+            if (states)
+            {
+                states.parryIsOn = false;
+            }
+
+            if (eStates)
+            {
+                eStates.parryIsOn = false;
+            }
         }
     }
 }

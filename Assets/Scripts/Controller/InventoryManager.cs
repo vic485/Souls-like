@@ -10,6 +10,8 @@ namespace Gazzotto.Controller
         public bool hasLeftHandWeapon = true;
         public Weapon leftHandWeapon;
 
+        public GameObject parryCollider;
+
         StateManager states;
 
         public void Init(StateManager st)
@@ -18,6 +20,9 @@ namespace Gazzotto.Controller
             EquipWeapon(rightHandWeapon);
             EquipWeapon(leftHandWeapon, true);
             CloseAllDamageColliders();
+            ParryCollider pr = parryCollider.GetComponent<ParryCollider>();
+            pr.InitPlayer(st);
+            CloseParryCollider();
         }
 
         public void EquipWeapon(Weapon weapon, bool isLeft = false)
@@ -45,6 +50,16 @@ namespace Gazzotto.Controller
 
             if (leftHandWeapon.w_hook != null)
                 leftHandWeapon.w_hook.CloseDamageColliders();
+        }
+
+        public void CloseParryCollider()
+        {
+            parryCollider.SetActive(false);
+        }
+
+        public void OpenParryCollider()
+        {
+            parryCollider.SetActive(true);
         }
     }
 

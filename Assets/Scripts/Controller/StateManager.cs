@@ -23,6 +23,7 @@ namespace Gazzotto.Controller
         public float rotateSpeed = 9f;
         public float toGround = 0.5f;
         public float rollSpeed = 15f;
+        public float parryOffset = 1.4f;
 
         [Header("States")]
         public bool onGround;
@@ -32,6 +33,8 @@ namespace Gazzotto.Controller
         public bool canMove;
         public bool isTwoHanded;
         public bool usingItem;
+        public bool canBeParried;
+        public bool parryIsOn;
         public bool isBlocking;
         public bool isLeftHand;
 
@@ -39,6 +42,7 @@ namespace Gazzotto.Controller
         public EnemyTarget lockOnTarget;
         public Transform lockOnTransform;
         public AnimationCurve roll_curve;
+        public EnemyStates parryTarget;
 
         [HideInInspector] public Animator anim;
         [HideInInspector] public Rigidbody rigid;
@@ -220,6 +224,9 @@ namespace Gazzotto.Controller
 
         void AttackAction(Action slot)
         {
+            if (CheckForParry(slot))
+                return;
+
             string targetAnim = null;
 
             targetAnim = slot.targetAnim;
@@ -229,6 +236,17 @@ namespace Gazzotto.Controller
 
             canMove = false;
             inAction = true;
+
+            float targetSpeed = 1f;
+            if (slot.changeSpeed)
+            {
+                targetSpeed = slot.animSpeed;
+                if (targetSpeed == 0)
+                    targetSpeed = 1;
+            }
+
+            canBeParried = slot.canBeParried;
+            anim.SetFloat("animSpeed", targetSpeed);
             anim.SetBool("mirror", slot.mirror);
             anim.CrossFade(targetAnim, 0.2f);
         }
@@ -237,6 +255,46 @@ namespace Gazzotto.Controller
         {
             isBlocking = true;
             isLeftHand = slot.mirror;
+        }
+
+        bool CheckForParry(Action slot)
+        {
+            if (parryTarget == null)
+                return false;
+
+            float dis = Vector3.Distance(parryTarget.transform.position, transform.position);
+
+            if (dis > 3)
+                return false;
+
+            Vector3 dir = parryTarget.transform.position - transform.position;
+            dir.Normalize();
+            dir.y = 0;
+            float angle = Vector3.Angle(transform.forward, dir);
+
+            if (angle < 60)
+            {
+                Vector3 targetPosition = -dir * parryOffset;
+                targetPosition += parryTarget.transform.position;
+                transform.position = targetPosition;
+
+                if (dir == Vector3.zero)
+                    dir = -parryTarget.transform.forward;
+
+                Quaternion eRotation = Quaternion.LookRotation(-dir);
+                Quaternion ourRot = Quaternion.LookRotation(dir);
+
+                parryTarget.transform.rotation = eRotation;
+                transform.rotation = ourRot;
+                parryTarget.IsGettingParried();
+                canMove = false;
+                inAction = true;
+                anim.SetBool("mirror", slot.mirror);
+                anim.CrossFade("parry_attack", 0.2f);
+                return true;
+            }
+
+            return false;
         }
 
         void ParryAction(Action slot)
@@ -248,6 +306,17 @@ namespace Gazzotto.Controller
             if (string.IsNullOrEmpty(targetAnim))
                 return;
 
+            float targetSpeed = 1f;
+            if (slot.changeSpeed)
+            {
+                targetSpeed = slot.animSpeed;
+                if (targetSpeed == 0)
+                    targetSpeed = 1;
+            }
+
+            anim.SetFloat("animSpeed", targetSpeed);
+
+            canBeParried = slot.canBeParried;
             canMove = false;
             inAction = true;
             anim.SetBool("mirror", slot.mirror);
@@ -347,6 +416,11 @@ namespace Gazzotto.Controller
                 actionManager.UpdateActionsTwoHanded();
             else
                 actionManager.UpdateActionsOneHanded();
+        }
+
+        public void IsGettingParried()
+        {
+
         }
     }
 }

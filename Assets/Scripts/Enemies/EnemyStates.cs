@@ -8,9 +8,14 @@ namespace Gazzotto.Enemies
     public class EnemyStates : MonoBehaviour
     {
         public float health;
+        public bool canBeParried = true;
+        public bool parryIsOn = true;
         public bool isInvincible;
+        public bool dontDoAnything;
         public bool canMove;
         public bool isDead;
+
+        StateManager parriedBy;
 
         public Animator anim;
         EnemyTarget enTarget;
@@ -20,6 +25,8 @@ namespace Gazzotto.Enemies
 
         List<Rigidbody> ragdollRigids = new List<Rigidbody>();
         List<Collider> ragdollColliders = new List<Collider>();
+
+        float timer;
 
         private void Start()
         {
@@ -36,6 +43,7 @@ namespace Gazzotto.Enemies
             a_hook.Init(null, this);
 
             InitRagdoll();
+            parryIsOn = false;
         }
 
         void InitRagdoll()
@@ -82,6 +90,12 @@ namespace Gazzotto.Enemies
             delta = Time.deltaTime;
             canMove = anim.GetBool("canMove");
 
+            if (dontDoAnything)
+            {
+                dontDoAnything = !canMove;
+                return;
+            }
+
             if (health <= 0)
             {
                 if (!isDead)
@@ -96,8 +110,32 @@ namespace Gazzotto.Enemies
                 isInvincible = !canMove;
             }
 
+            if (parriedBy != null && !parryIsOn)
+            {
+                parriedBy.parryTarget = null;
+                parriedBy = null;
+            }
+
             if (canMove)
+            {
+                parryIsOn = false;
                 anim.applyRootMotion = false;
+
+                // Debug
+                timer += Time.deltaTime;
+                if (timer > 3)
+                {
+                    DoAction();
+                    timer = 0;
+                }
+            }
+        }
+
+        void DoAction()
+        {
+            anim.Play("oh_attack_1");
+            anim.applyRootMotion = true;
+            anim.SetBool("canMove", false);
         }
 
         public void DoDamage(float v)
@@ -107,9 +145,36 @@ namespace Gazzotto.Enemies
 
             health -= v;
             isInvincible = true;
-            anim.Play("damage_1");
+            anim.Play("damage_2");
             anim.applyRootMotion = true;
             anim.SetBool("canMove", false);
+        }
+
+        public void CheckForParry(Transform target, StateManager states)
+        {
+            if (!parryIsOn || !canBeParried || isInvincible)
+                return;
+
+            Vector3 dir = transform.position - target.position;
+            dir.Normalize();
+            float dot = Vector3.Dot(target.forward, dir);
+            if (dot < 0)
+                return;
+
+            isInvincible = true;
+            anim.Play("attack_interrupt");
+            anim.applyRootMotion = true;
+            anim.SetBool("canMove", false);
+            states.parryTarget = this;
+            parriedBy = states;
+        }
+
+        public void IsGettingParried()
+        {
+            health -= 500;
+            dontDoAnything = true;
+            anim.SetBool("canMove", false);
+            anim.Play("parry_received");
         }
     }
 }
