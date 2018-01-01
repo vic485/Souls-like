@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using Gazzotto.Items;
+using Gazzotto.Managers;
 using Gazzotto.UI;
 
 namespace Gazzotto.Controller
@@ -30,7 +31,7 @@ namespace Gazzotto.Controller
         {
             string targetIdle = weapon.oh_idle;
             targetIdle += (isLeft) ? "_l" : "_r";
-            states.anim.SetBool("mirror", isLeft);
+            states.anim.SetBool(StaticStrings.mirror, isLeft);
             states.anim.Play("changeWeapon");
             states.anim.Play(targetIdle);
 

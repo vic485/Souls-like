@@ -33,6 +33,9 @@ namespace Gazzotto.Controller
 
         bool usedRightAxis;
 
+        bool changeTargetLeft;
+        bool changeTargetRight;
+
         private void Awake()
         {
             if (singleton != null)
@@ -60,6 +63,9 @@ namespace Gazzotto.Controller
 
             float targetSpeed = mouseSpeed;
 
+            changeTargetLeft = Input.GetKeyUp(KeyCode.V);
+            changeTargetRight = Input.GetKeyUp(KeyCode.V);
+
             if (lockonTarget != null)
             {
                 if (lockonTransform == null)
@@ -76,6 +82,12 @@ namespace Gazzotto.Controller
                         states.lockOnTransform = lockonTransform;
                         usedRightAxis = true;
                     }
+                }
+
+                if (changeTargetLeft || changeTargetRight)
+                {
+                    lockonTransform = lockonTarget.GetTarget(changeTargetLeft);
+                    states.lockOnTransform = lockonTransform;
                 }
             }
 

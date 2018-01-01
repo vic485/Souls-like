@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Gazzotto.Managers;
 
 namespace Gazzotto.Enemies
 {
@@ -24,6 +25,8 @@ namespace Gazzotto.Enemies
             {
                 targets.Add(anim.GetBoneTransform(h_bones[i]));
             }
+
+            EnemyManager.singleton.enemyTargets.Add(this);
         }
 
         public Transform GetTarget(bool negative = false)

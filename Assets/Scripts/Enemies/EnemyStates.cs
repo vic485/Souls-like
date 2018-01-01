@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Gazzotto.Controller;
+using Gazzotto.Managers;
 
 namespace Gazzotto.Enemies
 {
@@ -87,7 +88,7 @@ namespace Gazzotto.Enemies
         private void Update()
         {
             delta = Time.deltaTime;
-            canMove = anim.GetBool("canMove");
+            canMove = anim.GetBool(StaticStrings.canMove);
 
             if (dontDoAnything)
             {
@@ -134,7 +135,7 @@ namespace Gazzotto.Enemies
         {
             anim.Play("oh_attack_1");
             anim.applyRootMotion = true;
-            anim.SetBool("canMove", false);
+            anim.SetBool(StaticStrings.canMove, false);
         }
 
         public void DoDamage(float v)
@@ -146,7 +147,7 @@ namespace Gazzotto.Enemies
             isInvincible = true;
             anim.Play("damage_2");
             anim.applyRootMotion = true;
-            anim.SetBool("canMove", false);
+            anim.SetBool(StaticStrings.canMove, false);
         }
 
         public void CheckForParry(Transform target, StateManager states)
@@ -161,9 +162,9 @@ namespace Gazzotto.Enemies
                 return;
 
             isInvincible = true;
-            anim.Play("attack_interrupt");
+            anim.Play(StaticStrings.attack_interrupt);
             anim.applyRootMotion = true;
-            anim.SetBool("canMove", false);
+            anim.SetBool(StaticStrings.canMove, false);
             //states.parryTarget = this;
             parriedBy = states;
         }
@@ -172,8 +173,16 @@ namespace Gazzotto.Enemies
         {
             health -= 500;
             dontDoAnything = true;
-            anim.SetBool("canMove", false);
-            anim.Play("parry_received");
+            anim.SetBool(StaticStrings.canMove, false);
+            anim.Play(StaticStrings.parry_received);
+        }
+
+        public void IsGettingBackstabbed()
+        {
+            health -= 500;
+            dontDoAnything = true;
+            anim.SetBool(StaticStrings.canMove, false);
+            anim.Play(StaticStrings.backstabbed);
         }
     }
 }

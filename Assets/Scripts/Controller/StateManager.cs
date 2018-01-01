@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Gazzotto.Enemies;
+using Gazzotto.Managers;
 
 namespace Gazzotto.Controller
 {
@@ -24,6 +25,7 @@ namespace Gazzotto.Controller
         public float toGround = 0.5f;
         public float rollSpeed = 15f;
         public float parryOffset = 1.4f;
+        public float backStabOffest = 1.4f;
 
         [Header("States")]
         public bool onGround;
@@ -77,7 +79,7 @@ namespace Gazzotto.Controller
             gameObject.layer = 8;
             ignoreLayers = ~(1 << 9);
 
-            anim.SetBool("onGround", true);
+            anim.SetBool(StaticStrings.onGround, true);
         }
 
         void SetupAnimator()
@@ -102,15 +104,15 @@ namespace Gazzotto.Controller
             delta = d;
 
             isBlocking = false;
-            usingItem = anim.GetBool("interacting");
+            usingItem = anim.GetBool(StaticStrings.interacting);
 
             DetectAction();
             DetectItemAction();
             
             inventoryManager.rightHandWeapon.weaponModel.SetActive(!usingItem);
 
-            anim.SetBool("block", isBlocking);
-            anim.SetBool("isLeft", isLeftHand);
+            anim.SetBool(StaticStrings.blocking, isBlocking);
+            anim.SetBool(StaticStrings.isLeft, isLeftHand);
 
             if (inAction)
             {
@@ -128,7 +130,7 @@ namespace Gazzotto.Controller
                 }
             }
 
-            canMove = anim.GetBool("canMove");
+            canMove = anim.GetBool(StaticStrings.canMove);
 
             if (!canMove)
                 return;
@@ -165,7 +167,7 @@ namespace Gazzotto.Controller
             Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, delta * moveAmount * rotateSpeed);
             transform.rotation = targetRotation;
 
-            anim.SetBool("lockon", lockOn);
+            anim.SetBool(StaticStrings.lockon, lockOn);
 
             if (!lockOn)
                 HandleMovementAnimations();
@@ -249,8 +251,8 @@ namespace Gazzotto.Controller
             }
 
             canBeParried = slot.canBeParried;
-            anim.SetFloat("animSpeed", targetSpeed);
-            anim.SetBool("mirror", slot.mirror);
+            anim.SetFloat(StaticStrings.animSpeed, targetSpeed);
+            anim.SetBool(StaticStrings.mirror, slot.mirror);
             anim.CrossFade(targetAnim, 0.2f);
         }
 
@@ -305,8 +307,9 @@ namespace Gazzotto.Controller
                 parryTarget.IsGettingParried();
                 canMove = false;
                 inAction = true;
-                anim.SetBool("mirror", slot.mirror);
-                anim.CrossFade("parry_attack", 0.2f);
+                anim.SetBool(StaticStrings.mirror, slot.mirror);
+                anim.CrossFade(StaticStrings.parry_attack, 0.2f);
+                lockOnTarget = null;
                 return true;
             }
 
@@ -338,17 +341,17 @@ namespace Gazzotto.Controller
 
             if (angle > 150)
             {
-                Vector3 targetPosition = dir * parryOffset;
+                Vector3 targetPosition = dir * backStabOffest;
                 targetPosition += backstabTarget.transform.position;
                 transform.position = targetPosition;
 
                 backstabTarget.transform.rotation = transform.rotation;
-                backstabTarget.IsGettingParried();
+                backstabTarget.IsGettingBackstabbed();
                 canMove = false;
                 inAction = true;
-                anim.SetBool("mirror", slot.mirror);
-                anim.CrossFade("parry_attack", 0.2f);
-
+                anim.SetBool(StaticStrings.mirror, slot.mirror);
+                anim.CrossFade(StaticStrings.parry_attack, 0.2f);
+                lockOnTarget = null;
                 return true;
             }
 
@@ -372,12 +375,12 @@ namespace Gazzotto.Controller
                     targetSpeed = 1;
             }
 
-            anim.SetFloat("animSpeed", targetSpeed);
+            anim.SetFloat(StaticStrings.animSpeed, targetSpeed);
 
             canBeParried = slot.canBeParried;
             canMove = false;
             inAction = true;
-            anim.SetBool("mirror", slot.mirror);
+            anim.SetBool(StaticStrings.mirror, slot.mirror);
             anim.CrossFade(targetAnim, 0.2f);
         }
 
@@ -385,7 +388,7 @@ namespace Gazzotto.Controller
         {
             delta = d;
             onGround = OnGround();
-            anim.SetBool("onGround", onGround);
+            anim.SetBool(StaticStrings.onGround, onGround);
         }
 
         void HandleRolls()
@@ -424,18 +427,18 @@ namespace Gazzotto.Controller
                 a_hook.rm_multi = 1.3f;
             }
 
-            anim.SetFloat("vertical", v);
-            anim.SetFloat("horizontal", h);
+            anim.SetFloat(StaticStrings.vertical, v);
+            anim.SetFloat(StaticStrings.horizontal, h);
 
             canMove = false;
             inAction = true;
-            anim.CrossFade("Rolls", 0.2f);
+            anim.CrossFade(StaticStrings.Rolls, 0.2f);
         }
 
         void HandleMovementAnimations()
         {
-            anim.SetBool("run", run);
-            anim.SetFloat("vertical", moveAmount, 0.4f, delta);
+            anim.SetBool(StaticStrings.run, run);
+            anim.SetFloat(StaticStrings.vertical, moveAmount, 0.4f, delta);
         }
 
         void HandleLockOnAnimations(Vector3 moveDir)
@@ -444,8 +447,8 @@ namespace Gazzotto.Controller
             float h = relativeDir.x;
             float v = relativeDir.z;
 
-            anim.SetFloat("vertical", v, 0.2f, delta);
-            anim.SetFloat("horizontal", h, 0.2f, delta);
+            anim.SetFloat(StaticStrings.vertical, v, 0.2f, delta);
+            anim.SetFloat(StaticStrings.horizontal, h, 0.2f, delta);
         }
 
         public bool OnGround()
@@ -468,7 +471,7 @@ namespace Gazzotto.Controller
 
         public void HandleTwoHanded()
         {
-            anim.SetBool("twoHanded", isTwoHanded);
+            anim.SetBool(StaticStrings.two_handed, isTwoHanded);
 
             if (isTwoHanded)
                 actionManager.UpdateActionsTwoHanded();
