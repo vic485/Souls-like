@@ -3,12 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using Gazzotto.Controller;
 using Gazzotto.Managers;
+using Gazzotto.Stats;
 
 namespace Gazzotto.Enemies
 {
     public class EnemyStates : MonoBehaviour
     {
-        public float health;
+        public int health;
+
+        public CharacterStats characterStats;
+
         public bool canBeParried = true;
         public bool parryIsOn = true;
         public bool isInvincible;
@@ -22,6 +26,7 @@ namespace Gazzotto.Enemies
         AnimatorHook a_hook;
         public Rigidbody rigid;
         public float delta;
+        public float poiseDegrade = 2;
 
         List<Rigidbody> ragdollRigids = new List<Rigidbody>();
         List<Collider> ragdollColliders = new List<Collider>();
@@ -30,7 +35,7 @@ namespace Gazzotto.Enemies
 
         private void Start()
         {
-            health = 100;
+            health = 100000;
             anim = GetComponentInChildren<Animator>();
             enTarget = GetComponent<EnemyTarget>();
             enTarget.Init(this);
@@ -129,6 +134,10 @@ namespace Gazzotto.Enemies
                     timer = 0;
                 }
             }
+
+            characterStats.poise -= delta * 2;
+            if (characterStats.poise < 0)
+                characterStats.poise = 0;
         }
 
         void DoAction()
@@ -138,14 +147,31 @@ namespace Gazzotto.Enemies
             anim.SetBool(StaticStrings.canMove, false);
         }
 
-        public void DoDamage(float v)
+        public void DoDamage(Action a)
         {
             if (isInvincible)
                 return;
 
-            health -= v;
+            int damage = StatsCalculations.CalculateBaseDamage(a.weaponStats, characterStats);
+
+            characterStats.poise += damage;
+            health -= damage;
+
+            if (canMove || characterStats.poise > 100)
+            {
+                if (a.overrideDamageAnim)
+                    anim.Play(a.damageAnim);
+                else
+                {
+                    int ran = Random.Range(0, 100);
+                    string tA = (ran > 50) ? StaticStrings.damage1 : StaticStrings.damage2;
+                    anim.Play(tA);
+                }
+            }
+
+            print("Damage is " + damage + ", Poise is " + characterStats.poise);
+
             isInvincible = true;
-            anim.Play("damage_2");
             anim.applyRootMotion = true;
             anim.SetBool(StaticStrings.canMove, false);
         }
@@ -169,17 +195,19 @@ namespace Gazzotto.Enemies
             parriedBy = states;
         }
 
-        public void IsGettingParried()
+        public void IsGettingParried(WeaponStats wStats)
         {
-            health -= 500;
+            int damage = StatsCalculations.CalculateBaseDamage(wStats, characterStats);
+            health -= damage;
             dontDoAnything = true;
             anim.SetBool(StaticStrings.canMove, false);
             anim.Play(StaticStrings.parry_received);
         }
 
-        public void IsGettingBackstabbed()
+        public void IsGettingBackstabbed(WeaponStats wStats)
         {
-            health -= 500;
+            int damage = StatsCalculations.CalculateBaseDamage(wStats, characterStats);
+            health -= damage;
             dontDoAnything = true;
             anim.SetBool(StaticStrings.canMove, false);
             anim.Play(StaticStrings.backstabbed);

@@ -1,10 +1,18 @@
 ﻿using UnityEngine;
+using Gazzotto.Controller;
 using Gazzotto.Enemies;
 
 namespace Gazzotto.Items
 {
     public class DamageCollider : MonoBehaviour
     {
+        StateManager states;
+
+        public void Init(StateManager st)
+        {
+            states = st;
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             EnemyStates eStates = other.transform.GetComponentInParent<EnemyStates>();
@@ -12,8 +20,7 @@ namespace Gazzotto.Items
             if (eStates == null)
                 return;
 
-            // do damage
-            eStates.DoDamage(35);
+            eStates.DoDamage(states.currentAction);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Gazzotto.Enemies;
 using Gazzotto.Managers;
+using Gazzotto.Stats;
 
 namespace Gazzotto.Controller
 {
@@ -8,6 +9,10 @@ namespace Gazzotto.Controller
     {
         [Header("Inits")]
         public GameObject activeModel;
+
+        [Header("Stats")]
+        public Attributes attributes;
+        public CharacterStats characterStats;
 
         [Header("Inputs")]
         public float vertical;
@@ -54,6 +59,7 @@ namespace Gazzotto.Controller
 
         [HideInInspector] public float delta;
         [HideInInspector] public LayerMask ignoreLayers;
+        [HideInInspector] public Action currentAction;
 
         float _actionDelay = 0;
 
@@ -232,6 +238,8 @@ namespace Gazzotto.Controller
             if (CheckForBackstab(slot))
                 return;
 
+            currentAction = slot;
+
             string targetAnim = null;
 
             targetAnim = slot.targetAnim;
@@ -304,7 +312,7 @@ namespace Gazzotto.Controller
 
                 parryTarget.transform.rotation = eRotation;
                 transform.rotation = ourRot;
-                parryTarget.IsGettingParried();
+                parryTarget.IsGettingParried(inventoryManager.GetCurrentWeapon(isLeftHand).parryStats);
                 canMove = false;
                 inAction = true;
                 anim.SetBool(StaticStrings.mirror, slot.mirror);
@@ -346,7 +354,7 @@ namespace Gazzotto.Controller
                 transform.position = targetPosition;
 
                 backstabTarget.transform.rotation = transform.rotation;
-                backstabTarget.IsGettingBackstabbed();
+                backstabTarget.IsGettingBackstabbed(inventoryManager.GetCurrentWeapon(isLeftHand).backstabStats);
                 canMove = false;
                 inAction = true;
                 anim.SetBool(StaticStrings.mirror, slot.mirror);

@@ -35,5 +35,8 @@
         public static string attack_interrupt = "attack_interrupt";
         public static string parry_received = "parry_received";
         public static string backstabbed = "backstabbed";
+        public static string damage1 = "damage_1";
+        public static string damage2 = "damage_2";
+        public static string damage3 = "damage_3";
     }
 }
