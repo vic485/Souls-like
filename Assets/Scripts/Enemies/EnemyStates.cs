@@ -169,7 +169,7 @@ namespace Gazzotto.Enemies
                 }
             }
 
-            print("Damage is " + damage + ", Poise is " + characterStats.poise);
+            //print("Damage is " + damage + ", Poise is " + characterStats.poise);
 
             isInvincible = true;
             anim.applyRootMotion = true;
@@ -195,18 +195,20 @@ namespace Gazzotto.Enemies
             parriedBy = states;
         }
 
-        public void IsGettingParried(WeaponStats wStats)
+        public void IsGettingParried(Action a)
         {
-            int damage = StatsCalculations.CalculateBaseDamage(wStats, characterStats);
+            int damage = StatsCalculations.CalculateBaseDamage(a.weaponStats, characterStats, a.parryMultiplier);
+
             health -= damage;
             dontDoAnything = true;
             anim.SetBool(StaticStrings.canMove, false);
             anim.Play(StaticStrings.parry_received);
         }
 
-        public void IsGettingBackstabbed(WeaponStats wStats)
+        public void IsGettingBackstabbed(Action a)
         {
-            int damage = StatsCalculations.CalculateBaseDamage(wStats, characterStats);
+            int damage = StatsCalculations.CalculateBaseDamage(a.weaponStats, characterStats, a.backstabMultiplier);
+
             health -= damage;
             dontDoAnything = true;
             anim.SetBool(StaticStrings.canMove, false);

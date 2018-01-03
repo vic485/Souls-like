@@ -38,5 +38,14 @@
         public static string damage1 = "damage_1";
         public static string damage2 = "damage_2";
         public static string damage3 = "damage_3";
+        public static string changeWeapon = "changeWeapon";
+        public static string emptyBoth = "Empty Both Hands";
+        public static string emptyLeft = "Empty Left";
+        public static string emptyRight = "Empty Right";
+        public static string equipWeapon_oh = "equipWeapon_oh";
+
+        // Other
+        public static string _l = "_l";
+        public static string _r = "_r";
     }
 }

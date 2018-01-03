@@ -115,7 +115,7 @@ namespace Gazzotto.Controller
             DetectAction();
             DetectItemAction();
             
-            inventoryManager.rightHandWeapon.weaponModel.SetActive(!usingItem);
+            inventoryManager.rightHandWeapon.instance.weaponModel.SetActive(!usingItem);
 
             anim.SetBool(StaticStrings.blocking, isBlocking);
             anim.SetBool(StaticStrings.isLeft, isLeftHand);
@@ -272,6 +272,9 @@ namespace Gazzotto.Controller
 
         bool CheckForParry(Action slot)
         {
+            if (!slot.canParry)
+                return false;
+
             EnemyStates parryTarget = null;
             Vector3 origin = transform.position;
             origin.y += 1;
@@ -312,7 +315,7 @@ namespace Gazzotto.Controller
 
                 parryTarget.transform.rotation = eRotation;
                 transform.rotation = ourRot;
-                parryTarget.IsGettingParried(inventoryManager.GetCurrentWeapon(isLeftHand).parryStats);
+                parryTarget.IsGettingParried(slot);
                 canMove = false;
                 inAction = true;
                 anim.SetBool(StaticStrings.mirror, slot.mirror);
@@ -354,7 +357,7 @@ namespace Gazzotto.Controller
                 transform.position = targetPosition;
 
                 backstabTarget.transform.rotation = transform.rotation;
-                backstabTarget.IsGettingBackstabbed(inventoryManager.GetCurrentWeapon(isLeftHand).backstabStats);
+                backstabTarget.IsGettingBackstabbed(slot);
                 canMove = false;
                 inAction = true;
                 anim.SetBool(StaticStrings.mirror, slot.mirror);
@@ -479,12 +482,55 @@ namespace Gazzotto.Controller
 
         public void HandleTwoHanded()
         {
-            anim.SetBool(StaticStrings.two_handed, isTwoHanded);
+            bool isRight = true;
+            Weapon w = inventoryManager.rightHandWeapon.instance;
+            if (w == null)
+            {
+                w = inventoryManager.leftHandWeapon.instance;
+                isRight = false;
+            }
+
+            if (w == null)
+            {
+                return;
+            }
 
             if (isTwoHanded)
+            {
+                anim.CrossFade(w.th_idle, 0.2f);
                 actionManager.UpdateActionsTwoHanded();
+
+                if (isRight)
+                {
+                    if (inventoryManager.leftHandWeapon)
+                        inventoryManager.leftHandWeapon.instance.weaponModel.SetActive(false);
+                }
+                else
+                {
+                    if (inventoryManager.rightHandWeapon)
+                        inventoryManager.rightHandWeapon.instance.weaponModel.SetActive(false);
+                }
+            }
             else
+            {
+                //string targetAnim = w.oh_idle;
+                //targetAnim += (isRight) ? StaticStrings._r : StaticStrings._l;
+                //anim.CrossFade(targetAnim, 0.2f);
+                anim.Play(StaticStrings.equipWeapon_oh);
+                anim.Play(StaticStrings.emptyBoth);
                 actionManager.UpdateActionsOneHanded();
+
+                if (isRight)
+                {
+                    if (inventoryManager.leftHandWeapon)
+                        inventoryManager.leftHandWeapon.instance.weaponModel.SetActive(true);
+                }
+                else
+                {
+                    if (inventoryManager.rightHandWeapon)
+                        inventoryManager.rightHandWeapon.instance.weaponModel.SetActive(true);
+                }
+            }
         }
 
         public void IsGettingParried()
