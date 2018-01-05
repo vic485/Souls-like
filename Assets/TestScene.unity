@@ -2908,6 +2908,34 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 498373624}
+--- !u!1 &522367615
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 522367616}
+  m_Layer: 0
+  m_Name: '-------------------------------------------------'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &522367616
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 522367615}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &537701733
 GameObject:
   m_ObjectHideFlags: 0
@@ -4525,6 +4553,149 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!1 &892040387
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 892040389}
+  - component: {fileID: 892040388}
+  m_Layer: 0
+  m_Name: Resources Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &892040388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 892040387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecfe1bba7cd0a142b75371146ad57ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponList:
+  - weaponId: sword
+    icon: {fileID: 0}
+    oh_idle: oh_idle
+    th_idle: th_idle
+    actions:
+    - input: 0
+      type: 0
+      targetAnim: oh_attack_1
+      mirror: 0
+      canBeParried: 1
+      changeSpeed: 0
+      animSpeed: 0
+      canParry: 1
+      canBackstab: 1
+      parryMultiplier: 0
+      backstabMultiplier: 0
+      overrideDamageAnim: 0
+      damageAnim: 
+      weaponStats:
+        physical: 30
+        strike: 0
+        slash: 0
+        thrust: 0
+        magic: 0
+        fire: 0
+        lighting: 0
+        dark: 0
+    - input: 2
+      type: 0
+      targetAnim: oh_attack_3
+      mirror: 0
+      canBeParried: 1
+      changeSpeed: 0
+      animSpeed: 0
+      canParry: 0
+      canBackstab: 0
+      parryMultiplier: 0
+      backstabMultiplier: 0
+      overrideDamageAnim: 1
+      damageAnim: damage_3
+      weaponStats:
+        physical: 80
+        strike: 0
+        slash: 0
+        thrust: 0
+        magic: 0
+        fire: 0
+        lighting: 0
+        dark: 0
+    two_handedActions:
+    - input: 0
+      type: 0
+      targetAnim: th_attack_1
+      mirror: 0
+      canBeParried: 0
+      changeSpeed: 0
+      animSpeed: 0
+      canParry: 0
+      canBackstab: 1
+      parryMultiplier: 0
+      backstabMultiplier: 0
+      overrideDamageAnim: 0
+      damageAnim: 
+      weaponStats:
+        physical: 50
+        strike: 0
+        slash: 0
+        thrust: 0
+        magic: 0
+        fire: 0
+        lighting: 0
+        dark: 0
+    - input: 2
+      type: 0
+      targetAnim: th_attack_2
+      mirror: 0
+      canBeParried: 1
+      changeSpeed: 0
+      animSpeed: 0
+      canParry: 0
+      canBackstab: 0
+      parryMultiplier: 0
+      backstabMultiplier: 0
+      overrideDamageAnim: 1
+      damageAnim: damage_3
+      weaponStats:
+        physical: 50
+        strike: 0
+        slash: 0
+        thrust: 0
+        magic: 0
+        fire: 0
+        lighting: 0
+        dark: 0
+    parryMultiplier: 5
+    backstabMultiplier: 5
+    leftHandMirror: 1
+    weaponModel: {fileID: 0}
+    w_hook: {fileID: 0}
+    model_pos: {x: 0, y: 0, z: 0}
+    model_eulers: {x: 0, y: 0, z: 0}
+    model_scale: {x: 0, y: 0, z: 0}
+--- !u!4 &892040389
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 892040387}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.3007364, y: 0.20042944, z: 5.128664}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &892783960
 GameObject:
   m_ObjectHideFlags: 0
@@ -5657,6 +5828,66 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!1 &1099885304
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1099885307}
+  - component: {fileID: 1099885306}
+  - component: {fileID: 1099885305}
+  m_Layer: 0
+  m_Name: XML Maker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1099885305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1099885304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8c9c189c2b5d9242ab94981481f8f99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  load: 0
+  resourcesManager: {fileID: 892040388}
+  weaponFileName: item_database.xml
+--- !u!114 &1099885306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1099885304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cffa33152b3edee439c274c4265abe37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  make: 0
+  candidates:
+  - {fileID: 1585522181}
+  xml_version: <?xml version="1.0" encoding = "utf-8"?>
+  targetName: item_database.xml
+--- !u!4 &1099885307
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1099885304}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1226328953 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100002, guid: d71c53de75aaa5146912fdd86bbcd5f3, type: 3}
@@ -7025,6 +7256,9 @@ MonoBehaviour:
     leftHandMirror: 1
     weaponModel: {fileID: 2123943011}
     w_hook: {fileID: 2123943015}
+    model_pos: {x: 0, y: 0, z: 0}
+    model_eulers: {x: 0, y: 0, z: 0}
+    model_scale: {x: 0, y: 0, z: 0}
 --- !u!4 &1585522182
 Transform:
   m_ObjectHideFlags: 0
@@ -7036,7 +7270,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1585728594
 GameObject:
@@ -7909,6 +8143,9 @@ MonoBehaviour:
     leftHandMirror: 1
     weaponModel: {fileID: 636485147}
     w_hook: {fileID: 636485148}
+    model_pos: {x: 0, y: 0, z: 0}
+    model_eulers: {x: 0, y: 0, z: 0}
+    model_scale: {x: 0, y: 0, z: 0}
 --- !u!4 &1781953172
 Transform:
   m_ObjectHideFlags: 0
@@ -7920,7 +8157,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1791980582
 GameObject:
@@ -8085,6 +8322,9 @@ MonoBehaviour:
     leftHandMirror: 1
     weaponModel: {fileID: 40939949}
     w_hook: {fileID: 40939951}
+    model_pos: {x: 0, y: 0, z: 0}
+    model_eulers: {x: 0, y: 0, z: 0}
+    model_scale: {x: 0, y: 0, z: 0}
 --- !u!4 &1810346433
 Transform:
   m_ObjectHideFlags: 0
@@ -8096,7 +8336,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1817133349
 GameObject:

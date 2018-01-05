@@ -121,5 +121,9 @@ namespace Gazzotto.Controller
 
             return null;
         }
+
+        public Vector3 model_pos;
+        public Vector3 model_eulers;
+        public Vector3 model_scale;
     }
 }

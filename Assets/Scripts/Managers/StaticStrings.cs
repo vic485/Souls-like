@@ -47,5 +47,19 @@
         // Other
         public static string _l = "_l";
         public static string _r = "_r";
+
+        // Data
+        public static string itemFolder = "/Items/";
+
+        public static string SaveLocation()
+        {
+            string r = UnityEngine.Application.streamingAssetsPath;
+            if (!System.IO.Directory.Exists(r))
+            {
+                System.IO.Directory.CreateDirectory(r);
+            }
+
+            return r;
+        }
     }
 }
