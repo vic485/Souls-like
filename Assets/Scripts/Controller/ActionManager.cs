@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Gazzotto.Managers;
 using Gazzotto.Stats;
 
 namespace Gazzotto.Controller
@@ -23,56 +24,20 @@ namespace Gazzotto.Controller
         {
             EmptyAllSlots();
 
-            DeepCopyAction(states.inventoryManager.rightHandWeapon.instance, ActionInput.rb, ActionInput.rb);
-            DeepCopyAction(states.inventoryManager.rightHandWeapon.instance, ActionInput.rt, ActionInput.rt);
+            StaticFunctions.DeepCopyAction(states.inventoryManager.rightHandWeapon.instance, ActionInput.rb, ActionInput.rb, actionSlots);
+            StaticFunctions.DeepCopyAction(states.inventoryManager.rightHandWeapon.instance, ActionInput.rt, ActionInput.rt, actionSlots);
 
             if (states.inventoryManager.hasLeftHandWeapon)
             {
-                DeepCopyAction(states.inventoryManager.leftHandWeapon.instance, ActionInput.rb, ActionInput.lb, true);
-                DeepCopyAction(states.inventoryManager.leftHandWeapon.instance, ActionInput.rt, ActionInput.lt, true);
+                StaticFunctions.DeepCopyAction(states.inventoryManager.leftHandWeapon.instance, ActionInput.rb, ActionInput.lb, actionSlots, true);
+                StaticFunctions.DeepCopyAction(states.inventoryManager.leftHandWeapon.instance, ActionInput.rt, ActionInput.lt, actionSlots, true);
             }
             else
             {
-                DeepCopyAction(states.inventoryManager.rightHandWeapon.instance, ActionInput.lb, ActionInput.lb);
-                DeepCopyAction(states.inventoryManager.rightHandWeapon.instance, ActionInput.lt, ActionInput.lt);
+                StaticFunctions.DeepCopyAction(states.inventoryManager.rightHandWeapon.instance, ActionInput.lb, ActionInput.lb, actionSlots);
+                StaticFunctions.DeepCopyAction(states.inventoryManager.rightHandWeapon.instance, ActionInput.lt, ActionInput.lt, actionSlots);
             }
-        }
-
-        public void DeepCopyAction(Weapon w, ActionInput inp, ActionInput assign, bool isLeftHand = false)
-        {
-            Action a = GetAction(assign);
-            Action w_a = w.GetAction(w.actions, inp);
-            if (w_a == null)
-                return;
-
-            a.targetAnim = w_a.targetAnim;
-            a.type = w_a.type;
-            a.canBeParried = w_a.canBeParried;
-            a.changeSpeed = w_a.changeSpeed;
-            a.animSpeed = w_a.animSpeed;
-            a.canBackstab = w_a.canBackstab;
-            a.overrideDamageAnim = w_a.overrideDamageAnim;
-            a.damageAnim = w_a.damageAnim;
-            a.parryMultiplier = w.parryMultiplier;
-            a.backstabMultiplier = w.backstabMultiplier;
-
-            if (isLeftHand)
-                a.mirror = true;
-
-            DeepCopyWeaponStats(w_a.weaponStats, a.weaponStats);
-        }
-
-        public void DeepCopyWeaponStats(WeaponStats from, WeaponStats to)
-        {
-            to.physical = from.physical;
-            to.slash = from.slash;
-            to.strike = from.strike;
-            to.thrust = from.thrust;
-            to.magic = from.magic;
-            to.lighting = from.fire;
-            to.fire = from.fire;
-            to.dark = from.dark;
-        }
+        }     
 
         public void UpdateActionsTwoHanded()
         {
@@ -81,7 +46,7 @@ namespace Gazzotto.Controller
 
             for (int i = 0; i < w.two_handedActions.Count; i++)
             {
-                Action a = GetAction(w.two_handedActions[i].input);
+                Action a = StaticFunctions.GetAction(w.two_handedActions[i].input, actionSlots);
                 a.targetAnim = w.two_handedActions[i].targetAnim;
                 a.type = w.two_handedActions[i].type;
             }
@@ -91,7 +56,7 @@ namespace Gazzotto.Controller
         {
             for (int i = 0; i < 4; i++)
             {
-                Action a = GetAction((ActionInput)i);
+                Action a = StaticFunctions.GetAction((ActionInput)i, actionSlots);
                 a.targetAnim = null;
                 a.mirror = false;
                 a.type = ActionType.attack;
@@ -111,19 +76,8 @@ namespace Gazzotto.Controller
         public Action GetActionSlot(StateManager st)
         {
             ActionInput a_input = GetActionInput(st);
-            return GetAction(a_input);
-        }
-
-        Action GetAction(ActionInput inp)
-        {
-            for (int i = 0; i < actionSlots.Count; i++)
-            {
-                if (actionSlots[i].input == inp)
-                    return actionSlots[i];
-            }
-
-            return null;
-        }
+            return StaticFunctions.GetAction(a_input, actionSlots);
+        }     
 
         public ActionInput GetActionInput(StateManager st)
         {

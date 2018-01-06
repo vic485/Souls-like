@@ -4110,10 +4110,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 788187117}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &809045380 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 400094, guid: d71c53de75aaa5146912fdd86bbcd5f3, type: 3}
-  m_PrefabInternal: {fileID: 131954553}
 --- !u!1 &822785227 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100026, guid: d71c53de75aaa5146912fdd86bbcd5f3, type: 3}
@@ -4582,7 +4578,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponList:
   - weaponId: sword
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 68389bba6ef5cfd409f0370bef3ea332, type: 3}
     oh_idle: oh_idle
     th_idle: th_idle
     actions:
@@ -4678,11 +4674,11 @@ MonoBehaviour:
     parryMultiplier: 5
     backstabMultiplier: 5
     leftHandMirror: 1
-    weaponModel: {fileID: 0}
-    w_hook: {fileID: 0}
-    model_pos: {x: 0, y: 0, z: 0}
-    model_eulers: {x: 0, y: 0, z: 0}
-    model_scale: {x: 0, y: 0, z: 0}
+    modelPrefab: {fileID: 1404052136118508, guid: d70b6529e684adb4197c717509b9d8ba,
+      type: 2}
+    model_pos: {x: 0.14, y: 0.049, z: 0.13}
+    model_eulers: {x: 7.447001, y: -136.97, z: -92.634}
+    model_scale: {x: 0.393701, y: 0.3937008, z: 0.3937009}
 --- !u!4 &892040389
 Transform:
   m_ObjectHideFlags: 0
@@ -5372,6 +5368,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a61813d2bb93b1d4c8ebe6747e23fdce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rh_weapons:
+  - sword
+  lh_weapons:
+  - sword
   rightHandWeapon: {fileID: 1585522181}
   hasLeftHandWeapon: 1
   leftHandWeapon: {fileID: 1810346432}
@@ -6868,76 +6868,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1466705309}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &1517126609
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 809045380}
-    m_Modifications:
-    - target: {fileID: 400000, guid: e3914e144adbd554a94c05401b826c22, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.14
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: e3914e144adbd554a94c05401b826c22, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.049
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: e3914e144adbd554a94c05401b826c22, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.13
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: e3914e144adbd554a94c05401b826c22, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.68781215
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: e3914e144adbd554a94c05401b826c22, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.62396306
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: e3914e144adbd554a94c05401b826c22, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.222932
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: e3914e144adbd554a94c05401b826c22, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.29645574
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: e3914e144adbd554a94c05401b826c22, type: 3}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: e3914e144adbd554a94c05401b826c22, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.39370105
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: e3914e144adbd554a94c05401b826c22, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.39370084
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: e3914e144adbd554a94c05401b826c22, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.39370087
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: e3914e144adbd554a94c05401b826c22, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 7.447001
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: e3914e144adbd554a94c05401b826c22, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -136.97
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: e3914e144adbd554a94c05401b826c22, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: -92.634
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: e3914e144adbd554a94c05401b826c22, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: e3914e144adbd554a94c05401b826c22, type: 3}
-  m_IsPrefabParent: 0
 --- !u!1 &1526363556 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100048, guid: d71c53de75aaa5146912fdd86bbcd5f3, type: 3}
@@ -7254,11 +7184,12 @@ MonoBehaviour:
     parryMultiplier: 5
     backstabMultiplier: 5
     leftHandMirror: 1
-    weaponModel: {fileID: 2123943011}
-    w_hook: {fileID: 2123943015}
-    model_pos: {x: 0, y: 0, z: 0}
-    model_eulers: {x: 0, y: 0, z: 0}
-    model_scale: {x: 0, y: 0, z: 0}
+    modelPrefab: {fileID: 0}
+    model_pos: {x: 0.14, y: 0.049, z: 0.13}
+    model_eulers: {x: 7.447001, y: -136.97, z: -92.634}
+    model_scale: {x: 0.393701, y: 0.3937008, z: 0.3937009}
+  weaponModel: {fileID: 0}
+  w_hook: {fileID: 0}
 --- !u!4 &1585522182
 Transform:
   m_ObjectHideFlags: 0
@@ -7867,59 +7798,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!1 &1743873311
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1743873314}
-  - component: {fileID: 1743873313}
-  - component: {fileID: 1743873312}
-  m_Layer: 9
-  m_Name: Damage Collider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1743873312
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1743873311}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1abf5d147f22c0a41abd76183db5b82e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!65 &1743873313
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1743873311}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.15, y: 0.04, z: 0.97}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!4 &1743873314
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1743873311}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -0, z: 0.173}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2123943012}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1774279881
 GameObject:
   m_ObjectHideFlags: 0
@@ -8141,11 +8019,12 @@ MonoBehaviour:
     parryMultiplier: 0
     backstabMultiplier: 0
     leftHandMirror: 1
-    weaponModel: {fileID: 636485147}
-    w_hook: {fileID: 636485148}
-    model_pos: {x: 0, y: 0, z: 0}
-    model_eulers: {x: 0, y: 0, z: 0}
-    model_scale: {x: 0, y: 0, z: 0}
+    modelPrefab: {fileID: 0}
+    model_pos: {x: 0.0166, y: 0.0321, z: 0.0021}
+    model_eulers: {x: -19.656, y: -28.591, z: 77.771}
+    model_scale: {x: 0.3937008, y: 0.393701, z: 0.393701}
+  weaponModel: {fileID: 0}
+  w_hook: {fileID: 0}
 --- !u!4 &1781953172
 Transform:
   m_ObjectHideFlags: 0
@@ -8320,11 +8199,12 @@ MonoBehaviour:
     parryMultiplier: 5
     backstabMultiplier: 5
     leftHandMirror: 1
-    weaponModel: {fileID: 40939949}
-    w_hook: {fileID: 40939951}
-    model_pos: {x: 0, y: 0, z: 0}
-    model_eulers: {x: 0, y: 0, z: 0}
-    model_scale: {x: 0, y: 0, z: 0}
+    modelPrefab: {fileID: 0}
+    model_pos: {x: -0.1467, y: 0.0366, z: -0.1258}
+    model_eulers: {x: 2.448, y: -307.121, z: -266.946}
+    model_scale: {x: 0.393701, y: 0.3937008, z: 0.3937009}
+  weaponModel: {fileID: 0}
+  w_hook: {fileID: 0}
 --- !u!4 &1810346433
 Transform:
   m_ObjectHideFlags: 0
@@ -9391,27 +9271,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2123715544}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &2123943011 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 100000, guid: e3914e144adbd554a94c05401b826c22, type: 3}
-  m_PrefabInternal: {fileID: 1517126609}
---- !u!4 &2123943012 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 400000, guid: e3914e144adbd554a94c05401b826c22, type: 3}
-  m_PrefabInternal: {fileID: 1517126609}
---- !u!114 &2123943015
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2123943011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c941c01068e07ca4783002c84b20c76a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageCollider:
-  - {fileID: 1743873311}
 --- !u!1 &2128586500 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100040, guid: d71c53de75aaa5146912fdd86bbcd5f3, type: 3}

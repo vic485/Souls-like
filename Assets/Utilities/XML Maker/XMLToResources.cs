@@ -59,8 +59,28 @@ namespace Gazzotto.Utilities
                 XmlNode leftHandMirror = w.SelectSingleNode("leftHandMirror");
                 bool.TryParse(leftHandMirror.InnerText, out _w.leftHandMirror);
 
+                _w.model_pos = XmlToVector3(w, "mp");
+                _w.model_eulers = XmlToVector3(w, "me");
+                _w.model_scale = XmlToVector3(w, "ms");
+
                 resourcesManager.weaponList.Add(_w);
             }
+        }
+
+        Vector3 XmlToVector3(XmlNode w, string prefix)
+        {
+            float x = 0, y = 0, z = 0;
+
+            XmlNode xNode = w.SelectSingleNode(prefix + "_x");
+            float.TryParse(xNode.InnerText, out x);
+
+            XmlNode yNode = w.SelectSingleNode(prefix + "_y");
+            float.TryParse(yNode.InnerText, out y);
+
+            XmlNode zNode = w.SelectSingleNode(prefix + "_z");
+            float.TryParse(zNode.InnerText, out z);
+
+            return new Vector3(x, y, z);
         }
 
         void XmlToActions(XmlDocument d, string nodeName, ref Weapon weapon)

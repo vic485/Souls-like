@@ -9,6 +9,9 @@ namespace Gazzotto.Controller
 {
     public class InventoryManager : MonoBehaviour
     {
+        public List<string> rh_weapons = new List<string>();
+        public List<string> lh_weapons = new List<string>();
+
         public ItemInstance rightHandWeapon;
         public bool hasLeftHandWeapon = true;
         public ItemInstance leftHandWeapon;
@@ -20,10 +23,20 @@ namespace Gazzotto.Controller
         public void Init(StateManager st)
         {
             states = st;
+
+            if (rh_weapons.Count > 0)
+                rightHandWeapon = WeaponToItemInstance(ResourcesManager.singleton.GetWeapon(rh_weapons[0]));
+
+            if (lh_weapons.Count > 0)
+            {
+                leftHandWeapon = WeaponToItemInstance(ResourcesManager.singleton.GetWeapon(lh_weapons[0]), true);
+                hasLeftHandWeapon = true;
+            }
+
             if (rightHandWeapon != null)
-                EquipWeapon(rightHandWeapon.instance);
+                EquipWeapon(rightHandWeapon);
             if (leftHandWeapon != null)
-                EquipWeapon(leftHandWeapon.instance, true);
+                EquipWeapon(leftHandWeapon, true);
 
             hasLeftHandWeapon = (leftHandWeapon != null);
 
@@ -34,16 +47,16 @@ namespace Gazzotto.Controller
             CloseParryCollider();
         }
 
-        public void EquipWeapon(Weapon weapon, bool isLeft = false)
+        public void EquipWeapon(ItemInstance weapon, bool isLeft = false)
         {
-            string targetIdle = weapon.oh_idle;
+            string targetIdle = weapon.instance.oh_idle;
             targetIdle += (isLeft) ? "_l" : "_r";
             states.anim.SetBool(StaticStrings.mirror, isLeft);
             states.anim.Play(StaticStrings.changeWeapon);
             states.anim.Play(targetIdle);
 
             QuickSlot uiSlot = QuickSlot.singleton;
-            uiSlot.UpdateSlot((isLeft) ? QSlotType.lh : QSlotType.rh, weapon.icon);
+            uiSlot.UpdateSlot((isLeft) ? QSlotType.lh : QSlotType.rh, weapon.instance.icon);
 
             weapon.weaponModel.SetActive(true);
         }
@@ -58,29 +71,29 @@ namespace Gazzotto.Controller
 
         public void OpenAllDamageColliders()
         {
-            if (rightHandWeapon.instance.w_hook != null)
-                rightHandWeapon.instance.w_hook.OpenDamageColliders();
+            if (rightHandWeapon.w_hook != null)
+                rightHandWeapon.w_hook.OpenDamageColliders();
 
-            if (leftHandWeapon.instance.w_hook != null)
-                leftHandWeapon.instance.w_hook.OpenDamageColliders();
+            if (leftHandWeapon.w_hook != null)
+                leftHandWeapon.w_hook.OpenDamageColliders();
         }
 
         public void CloseAllDamageColliders()
         {
-            if (rightHandWeapon.instance.w_hook != null)
-                rightHandWeapon.instance.w_hook.CloseDamageColliders();
+            if (rightHandWeapon.w_hook != null)
+                rightHandWeapon.w_hook.CloseDamageColliders();
 
-            if (leftHandWeapon.instance.w_hook != null)
-                leftHandWeapon.instance.w_hook.CloseDamageColliders();
+            if (leftHandWeapon.w_hook != null)
+                leftHandWeapon.w_hook.CloseDamageColliders();
         }
 
         public void InitAllDamageColliders()
         {
-            if (rightHandWeapon.instance.w_hook != null)
-                rightHandWeapon.instance.w_hook.InitDamageColliders(states);
+            if (rightHandWeapon.w_hook != null)
+                rightHandWeapon.w_hook.InitDamageColliders(states);
 
-            if (leftHandWeapon.instance.w_hook != null)
-                leftHandWeapon.instance.w_hook.InitDamageColliders(states);
+            if (leftHandWeapon.w_hook != null)
+                leftHandWeapon.w_hook.InitDamageColliders(states);
         }
 
         public void CloseParryCollider()
@@ -91,6 +104,27 @@ namespace Gazzotto.Controller
         public void OpenParryCollider()
         {
             parryCollider.SetActive(true);
+        }
+
+        public ItemInstance WeaponToItemInstance(Weapon w, bool isLeft = false)
+        {
+            GameObject go = new GameObject();
+            ItemInstance inst = go.AddComponent<ItemInstance>();
+
+            inst.instance = new Weapon();
+            StaticFunctions.DeepCopyWeapon(w, inst.instance);
+
+            inst.weaponModel = Instantiate(inst.instance.modelPrefab) as GameObject;
+            Transform p = states.anim.GetBoneTransform((isLeft) ? HumanBodyBones.LeftHand : HumanBodyBones.RightHand);
+            inst.weaponModel.transform.parent = p;
+            inst.weaponModel.transform.localPosition = inst.instance.model_pos;
+            inst.weaponModel.transform.localEulerAngles = inst.instance.model_eulers;
+            inst.weaponModel.transform.localScale = inst.instance.model_scale;
+
+            inst.w_hook = inst.weaponModel.GetComponentInChildren<WeaponHook>();
+            inst.w_hook.InitDamageColliders(states);
+
+            return inst;
         }
     }
 
@@ -108,8 +142,8 @@ namespace Gazzotto.Controller
         public float parryMultiplier;
         public float backstabMultiplier;
         public bool leftHandMirror;
-        public GameObject weaponModel;
-        public WeaponHook w_hook;
+
+        public GameObject modelPrefab;
 
         public Action GetAction(List<Action> l, ActionInput inp)
         {

@@ -40,9 +40,18 @@ namespace Gazzotto.Utilities
                 xml += "<parryMultiplier>" + w.parryMultiplier + "</parryMultiplier>\n";
                 xml += "<backstabMultiplier>" + w.backstabMultiplier + "</backstabMultiplier>\n";
                 xml += "<leftHandMirror>" + w.leftHandMirror + "</leftHandMirror>\n";
-                xml += "<model_pos>" + w.model_pos + "</model_pos>\n";
-                xml += "<model_eulers>" + w.model_eulers + "</model_eulers>\n";
-                xml += "<model_scale>" + w.model_scale + "</model_scale>\n";
+
+                xml += "<mp_x>" + w.model_pos.x + "</mp_x>\n";
+                xml += "<mp_y>" + w.model_pos.y + "</mp_y>\n";
+                xml += "<mp_z>" + w.model_pos.z + "</mp_z>\n";
+
+                xml += "<me_x>" + w.model_eulers.x + "</me_x>\n";
+                xml += "<me_y>" + w.model_eulers.y + "</me_y>\n";
+                xml += "<me_z>" + w.model_eulers.z + "</me_z>\n";
+
+                xml += "<ms_x>" + w.model_scale.x + "</ms_x>\n";
+                xml += "<ms_y>" + w.model_scale.y + "</ms_y>\n";
+                xml += "<ms_z>" + w.model_scale.z + "</ms_z>\n";
 
                 xml += "</weapon>\n";
             }

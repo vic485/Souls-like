@@ -91,8 +91,14 @@
     <parryMultiplier>5</parryMultiplier>
     <backstabMultiplier>5</backstabMultiplier>
     <leftHandMirror>True</leftHandMirror>
-    <model_pos>(0.0, 0.0, 0.0)</model_pos>
-    <model_eulers>(0.0, 0.0, 0.0)</model_eulers>
-    <model_scale>(0.0, 0.0, 0.0)</model_scale>
+    <mp_x>0.14</mp_x>
+    <mp_y>0.049</mp_y>
+    <mp_z>0.13</mp_z>
+    <me_x>7.447001</me_x>
+    <me_y>-136.97</me_y>
+    <me_z>-92.634</me_z>
+    <ms_x>0.393701</ms_x>
+    <ms_y>0.3937008</ms_y>
+    <ms_z>0.3937009</ms_z>
   </weapon>
 </root>
