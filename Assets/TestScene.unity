@@ -4577,7 +4577,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponList:
-  - weaponId: sword
+  - itemName: 
+    itemDescription: 
     icon: {fileID: 21300000, guid: 68389bba6ef5cfd409f0370bef3ea332, type: 3}
     oh_idle: oh_idle
     th_idle: th_idle
@@ -4676,8 +4677,10 @@ MonoBehaviour:
     leftHandMirror: 1
     modelPrefab: {fileID: 1404052136118508, guid: d70b6529e684adb4197c717509b9d8ba,
       type: 2}
-    model_pos: {x: 0.0062, y: 0.0221, z: -0.0122}
-    model_eulers: {x: 0, y: 0, z: 0}
+    r_model_pos: {x: 0, y: 0, z: 0}
+    l_model_pos: {x: 0, y: 0, z: 0}
+    r_model_eulers: {x: 0, y: 0, z: 0}
+    l_model_eulers: {x: 0, y: 0, z: 0}
     model_scale: {x: 1, y: 1, z: 1}
 --- !u!4 &892040389
 Transform:
@@ -4963,6 +4966,50 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!1 &960431779
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 960431781}
+  - component: {fileID: 960431780}
+  m_Layer: 0
+  m_Name: WeaponPlacer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &960431780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 960431779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc8d7a62125209f4ea1456ab2ade356c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponId: 
+  weaponModel: {fileID: 0}
+  leftHand: 0
+  saveWeapon: 0
+--- !u!4 &960431781
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 960431779}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.1535487, y: 1.5022304, z: 0.7827233}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &961436112
 GameObject:
   m_ObjectHideFlags: 0
@@ -7087,7 +7134,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   instance:
-    weaponId: sword
+    itemName: 
+    itemDescription: 
     icon: {fileID: 21300000, guid: 68389bba6ef5cfd409f0370bef3ea332, type: 3}
     oh_idle: oh_idle
     th_idle: th_idle
@@ -7185,8 +7233,10 @@ MonoBehaviour:
     backstabMultiplier: 5
     leftHandMirror: 1
     modelPrefab: {fileID: 0}
-    model_pos: {x: 0.14, y: 0.049, z: 0.13}
-    model_eulers: {x: 7.447001, y: -136.97, z: -92.634}
+    r_model_pos: {x: 0, y: 0, z: 0}
+    l_model_pos: {x: 0, y: 0, z: 0}
+    r_model_eulers: {x: 0, y: 0, z: 0}
+    l_model_eulers: {x: 0, y: 0, z: 0}
     model_scale: {x: 0.393701, y: 0.3937008, z: 0.3937009}
   weaponModel: {fileID: 0}
   w_hook: {fileID: 0}
@@ -7966,7 +8016,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   instance:
-    weaponId: shield
+    itemName: 
+    itemDescription: 
     icon: {fileID: 21300000, guid: 3af6e6d1ebe47b0429377697d6e589f7, type: 3}
     oh_idle: oh_idle
     th_idle: th_idle
@@ -8020,8 +8071,10 @@ MonoBehaviour:
     backstabMultiplier: 0
     leftHandMirror: 1
     modelPrefab: {fileID: 0}
-    model_pos: {x: 0.0166, y: 0.0321, z: 0.0021}
-    model_eulers: {x: -19.656, y: -28.591, z: 77.771}
+    r_model_pos: {x: 0, y: 0, z: 0}
+    l_model_pos: {x: 0, y: 0, z: 0}
+    r_model_eulers: {x: 0, y: 0, z: 0}
+    l_model_eulers: {x: 0, y: 0, z: 0}
     model_scale: {x: 0.3937008, y: 0.393701, z: 0.393701}
   weaponModel: {fileID: 0}
   w_hook: {fileID: 0}
@@ -8102,7 +8155,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   instance:
-    weaponId: sword
+    itemName: 
+    itemDescription: 
     icon: {fileID: 21300000, guid: 68389bba6ef5cfd409f0370bef3ea332, type: 3}
     oh_idle: oh_idle
     th_idle: th_idle
@@ -8200,8 +8254,10 @@ MonoBehaviour:
     backstabMultiplier: 5
     leftHandMirror: 1
     modelPrefab: {fileID: 0}
-    model_pos: {x: -0.1467, y: 0.0366, z: -0.1258}
-    model_eulers: {x: 2.448, y: -307.121, z: -266.946}
+    r_model_pos: {x: 0, y: 0, z: 0}
+    l_model_pos: {x: 0, y: 0, z: 0}
+    r_model_eulers: {x: 0, y: 0, z: 0}
+    l_model_eulers: {x: 0, y: 0, z: 0}
     model_scale: {x: 0.393701, y: 0.3937008, z: 0.3937009}
   weaponModel: {fileID: 0}
   w_hook: {fileID: 0}
