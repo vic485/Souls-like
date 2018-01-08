@@ -12,9 +12,9 @@ namespace Gazzotto.Controller
         public List<string> rh_weapons = new List<string>();
         public List<string> lh_weapons = new List<string>();
 
-        public ItemInstance rightHandWeapon;
+        public RuntimeWeapon rightHandWeapon;
         public bool hasLeftHandWeapon = true;
-        public ItemInstance leftHandWeapon;
+        public RuntimeWeapon leftHandWeapon;
 
         public GameObject parryCollider;
 
@@ -25,11 +25,11 @@ namespace Gazzotto.Controller
             states = st;
 
             if (rh_weapons.Count > 0)
-                rightHandWeapon = WeaponToItemInstance(ResourcesManager.singleton.GetWeapon(rh_weapons[0]));
+                rightHandWeapon = WeaponToRuntimeWeapon(ResourcesManager.singleton.GetWeapon(rh_weapons[0]));
 
             if (lh_weapons.Count > 0)
             {
-                leftHandWeapon = WeaponToItemInstance(ResourcesManager.singleton.GetWeapon(lh_weapons[0]), true);
+                leftHandWeapon = WeaponToRuntimeWeapon(ResourcesManager.singleton.GetWeapon(lh_weapons[0]), true);
                 hasLeftHandWeapon = true;
             }
 
@@ -47,7 +47,7 @@ namespace Gazzotto.Controller
             CloseParryCollider();
         }
 
-        public void EquipWeapon(ItemInstance weapon, bool isLeft = false)
+        public void EquipWeapon(RuntimeWeapon weapon, bool isLeft = false)
         {
             string targetIdle = weapon.instance.oh_idle;
             targetIdle += (isLeft) ? "_l" : "_r";
@@ -106,10 +106,10 @@ namespace Gazzotto.Controller
             parryCollider.SetActive(true);
         }
 
-        public ItemInstance WeaponToItemInstance(Weapon w, bool isLeft = false)
+        public RuntimeWeapon WeaponToRuntimeWeapon(Weapon w, bool isLeft = false)
         {
             GameObject go = new GameObject();
-            ItemInstance inst = go.AddComponent<ItemInstance>();
+            RuntimeWeapon inst = go.AddComponent<RuntimeWeapon>();
 
             inst.instance = new Weapon();
             StaticFunctions.DeepCopyWeapon(w, inst.instance);
@@ -117,8 +117,8 @@ namespace Gazzotto.Controller
             inst.weaponModel = Instantiate(inst.instance.modelPrefab) as GameObject;
             Transform p = states.anim.GetBoneTransform((isLeft) ? HumanBodyBones.LeftHand : HumanBodyBones.RightHand);
             inst.weaponModel.transform.parent = p;
-            inst.weaponModel.transform.localPosition = inst.instance.model_pos;
-            inst.weaponModel.transform.localEulerAngles = inst.instance.model_eulers;
+            inst.weaponModel.transform.localPosition = (isLeft) ? inst.instance.l_model_pos : inst.instance.r_model_pos;
+            inst.weaponModel.transform.localEulerAngles = (isLeft) ? inst.instance.l_model_eulers : inst.instance.r_model_eulers;
             inst.weaponModel.transform.localScale = inst.instance.model_scale;
 
             inst.w_hook = inst.weaponModel.GetComponentInChildren<WeaponHook>();
@@ -129,10 +129,17 @@ namespace Gazzotto.Controller
     }
 
     [System.Serializable]
-    public class Weapon
+    public class Item
     {
-        public string weaponId;
+        //public int itemId;
+        public string itemName;
+        public string itemDescription;
         public Sprite icon;
+    }
+
+    [System.Serializable]
+    public class Weapon : Item
+    {
         public string oh_idle;
         public string th_idle;
 
@@ -156,8 +163,10 @@ namespace Gazzotto.Controller
             return null;
         }
 
-        public Vector3 model_pos;
-        public Vector3 model_eulers;
+        public Vector3 r_model_pos;
+        public Vector3 l_model_pos;
+        public Vector3 r_model_eulers;
+        public Vector3 l_model_eulers;
         public Vector3 model_scale;
     }
 }

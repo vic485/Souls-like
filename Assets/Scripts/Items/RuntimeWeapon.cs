@@ -3,7 +3,7 @@ using Gazzotto.Controller;
 
 namespace Gazzotto.Items
 {
-    public class ItemInstance : MonoBehaviour
+    public class RuntimeWeapon : MonoBehaviour
     {
         public Weapon instance;
         public GameObject weaponModel;

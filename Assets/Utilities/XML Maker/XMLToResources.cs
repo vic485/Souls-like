@@ -22,7 +22,7 @@ namespace Gazzotto.Utilities
                 return;
             load = false;
 
-            resourcesManager.weaponList = new List<Weapon>();
+            //resourcesManager.weaponList = new List<Weapon>();
             LoadWeaponData(resourcesManager);
         }
 
@@ -40,9 +40,6 @@ namespace Gazzotto.Utilities
                 _w.actions = new List<Controller.Action>();
                 _w.two_handedActions = new List<Controller.Action>();
 
-                XmlNode weaponId = w.SelectSingleNode("weaponId");
-                _w.weaponId = weaponId.InnerText;
-
                 XmlNode oh_idle = w.SelectSingleNode("oh_idle");
                 _w.oh_idle = oh_idle.InnerText;
                 XmlNode th_idle = w.SelectSingleNode("th_idle");
@@ -59,11 +56,11 @@ namespace Gazzotto.Utilities
                 XmlNode leftHandMirror = w.SelectSingleNode("leftHandMirror");
                 bool.TryParse(leftHandMirror.InnerText, out _w.leftHandMirror);
 
-                _w.model_pos = XmlToVector3(w, "mp");
-                _w.model_eulers = XmlToVector3(w, "me");
+                //_w.model_pos = XmlToVector3(w, "mp");
+                //_w.model_eulers = XmlToVector3(w, "me");
                 _w.model_scale = XmlToVector3(w, "ms");
 
-                resourcesManager.weaponList.Add(_w);
+                //resourcesManager.weaponList.Add(_w);
             }
         }
 

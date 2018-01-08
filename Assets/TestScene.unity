@@ -4676,9 +4676,9 @@ MonoBehaviour:
     leftHandMirror: 1
     modelPrefab: {fileID: 1404052136118508, guid: d70b6529e684adb4197c717509b9d8ba,
       type: 2}
-    model_pos: {x: 0.14, y: 0.049, z: 0.13}
-    model_eulers: {x: 7.447001, y: -136.97, z: -92.634}
-    model_scale: {x: 0.393701, y: 0.3937008, z: 0.3937009}
+    model_pos: {x: 0.0062, y: 0.0221, z: -0.0122}
+    model_eulers: {x: 0, y: 0, z: 0}
+    model_scale: {x: 1, y: 1, z: 1}
 --- !u!4 &892040389
 Transform:
   m_ObjectHideFlags: 0

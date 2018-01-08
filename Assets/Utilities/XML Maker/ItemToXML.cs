@@ -12,7 +12,7 @@ namespace Gazzotto.Utilities
     public class ItemToXML : MonoBehaviour
     {
         public bool make;
-        public List<ItemInstance> candidates = new List<ItemInstance>();
+        public List<RuntimeWeapon> candidates = new List<RuntimeWeapon>();
         public string xml_version;
         public string targetName;
 
@@ -25,12 +25,11 @@ namespace Gazzotto.Utilities
             string xml = xml_version + "\n"; // <?xml version="1.0" encoding="utf-8"?>
             xml += "<root>\n";
 
-            foreach (ItemInstance i in candidates)
+            foreach (RuntimeWeapon i in candidates)
             {
                 Weapon w = i.instance;
 
                 xml += "<weapon>\n";
-                xml += "<weaponId>" + w.weaponId + "</weaponId>\n";
                 xml += "<oh_idle>" + w.oh_idle + "</oh_idle>\n";
                 xml += "<th_idle>" + w.th_idle + "</th_idle>\n";
 
@@ -41,13 +40,13 @@ namespace Gazzotto.Utilities
                 xml += "<backstabMultiplier>" + w.backstabMultiplier + "</backstabMultiplier>\n";
                 xml += "<leftHandMirror>" + w.leftHandMirror + "</leftHandMirror>\n";
 
-                xml += "<mp_x>" + w.model_pos.x + "</mp_x>\n";
+                /*xml += "<mp_x>" + w.model_pos.x + "</mp_x>\n";
                 xml += "<mp_y>" + w.model_pos.y + "</mp_y>\n";
                 xml += "<mp_z>" + w.model_pos.z + "</mp_z>\n";
 
                 xml += "<me_x>" + w.model_eulers.x + "</me_x>\n";
                 xml += "<me_y>" + w.model_eulers.y + "</me_y>\n";
-                xml += "<me_z>" + w.model_eulers.z + "</me_z>\n";
+                xml += "<me_z>" + w.model_eulers.z + "</me_z>\n";*/
 
                 xml += "<ms_x>" + w.model_scale.x + "</ms_x>\n";
                 xml += "<ms_y>" + w.model_scale.y + "</ms_y>\n";
